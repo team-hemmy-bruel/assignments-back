@@ -1,4 +1,4 @@
-let Assignment = require('../model/assignment');
+let Assignment = require('../models/assignment');
 
 // Récupérer tous les assignments (GET)
 function getAssignmentsSansPagination(req, res){
@@ -39,24 +39,29 @@ function getAssignment(req, res){
 }
 
 // Ajout d'un assignment (POST)
-function postAssignment(req, res){
+function postAssignment(req, res) {
     let assignment = new Assignment();
     assignment.id = req.body.id;
     assignment.nom = req.body.nom;
     assignment.dateDeRendu = req.body.dateDeRendu;
     assignment.rendu = req.body.rendu;
-
+    assignment.auteur = req.body.auteur;
+    assignment.matiere = req.body.matiere;
+    assignment.note = req.body.note;
+    assignment.remarques = req.body.remarques;
+  
     console.log("POST assignment reçu :");
-    console.log(assignment)
-
-    assignment.save( (err) => {
-        if(err){
-            res.send('cant post assignment ', err);
-        }
-        res.json({ message: `${assignment.nom} saved!`})
-    })
+    console.log(assignment);
+  
+    assignment.save((err) => {
+      if (err) {
+        res.send('Impossible d\'ajouter l\'assignment ', err);
+      }
+      res.json({ message: `${assignment.nom} enregistré !` });
+    });
 }
 
+/*
 // Update d'un assignment (PUT)
 function updateAssignment(req, res) {
     console.log("UPDATE recu assignment : ");
@@ -74,16 +79,44 @@ function updateAssignment(req, res) {
     });
 
 }
+*/
 
-// suppression d'un assignment (DELETE)
-function deleteAssignment(req, res) {
-
-    Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
+// Mise à jour d'un assignment (PUT)
+function updateAssignment(req, res) {
+    console.log("UPDATE reçu pour l'assignment : ");
+    console.log(req.body);
+  
+    Assignment.findByIdAndUpdate(
+      req.body._id,
+      {
+        nom: req.body.nom,
+        dateDeRendu: req.body.dateDeRendu,
+        rendu: req.body.rendu,
+        auteur: req.body.auteur,
+        matiere: req.body.matiere,
+        note: req.body.note,
+        remarques: req.body.remarques,
+      },
+      { new: true },
+      (err, assignment) => {
         if (err) {
-            res.send(err);
+          console.log(err);
+          res.send(err);
+        } else {
+          res.json({ message: `${assignment.nom} mis à jour` });
         }
-        res.json({message: `${assignment.nom} deleted`});
-    })
+      }
+    );
+}
+
+// Suppression d'un assignment (DELETE)
+function deleteAssignment(req, res) {
+    Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
+      if (err) {
+        res.send(err);
+      }
+      res.json({ message: `${assignment.nom} supprimé` });
+    });
 }
 
 
