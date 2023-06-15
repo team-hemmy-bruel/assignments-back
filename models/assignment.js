@@ -3,30 +3,30 @@ let Schema = mongoose.Schema;
 var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const AssignmentSchema = Schema({
-    id: Number,
-    dateDeRendu: Date,
-    nom: String,
-    rendu: {
-      type: Boolean,
-      default: false
-    },
-    auteur: {
-      nom: String,
-      photo: String
-    },
-    matiere: {
-      nom: String,
-      image: String
-    },
-    note: {
-      type: Number,
-      min: 0,
-      max: 20,
-      required: function() {
-        return this.rendu;
-      }
-    },
-    remarques: String
+  dateDeRendu: Date,
+  nom: String,
+  rendu: {
+    type: Boolean,
+    default: false
+  },
+  auteur: {
+    type: Schema.Types.ObjectId,
+    ref: 'users'
+  },
+  matiere: {
+    type: Schema.Types.ObjectId,
+    ref: 'matieres'
+  },
+  note: {
+    type: Number,
+    min: 0,
+    max: 20,
+    required: function() {
+      return this.rendu;
+    }
+  },
+  remarques: String
+  // autres propriétés...
 });
 
 AssignmentSchema.plugin(aggregatePaginate);

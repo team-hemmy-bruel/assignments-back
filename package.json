@@ -11,8 +11,10 @@
   "author": "Sam Orgill",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "faker": "^5.5.3",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^3.6.3",
     "mongoose": "^5.13.17",
     "mongoose-aggregate-paginate-v2": "^1.0.6",
