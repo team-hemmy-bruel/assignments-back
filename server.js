@@ -4,6 +4,8 @@ let bodyParser = require('body-parser');
 let assignment = require('./routes/assignments');
 let user = require('./routes/users');
 let matiere = require('./routes/matieres');
+let assignmentlib = require('./routes/assignmentslib');
+let verifyToken = require('./routes/VerifyToken');
 
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -46,29 +48,38 @@ let port = process.env.PORT || 8010;
 const prefix = '/api';
 
 app.route(prefix + '/assignments')
-  .get(assignment.getAssignments)
-  .post(assignment.postAssignment)
-  .put(assignment.updateAssignment);
+  .get(verifyToken.verifyToken, assignment.getAssignments)
+  .post(verifyToken.verifyToken, assignment.postAssignment)
+  .put(verifyToken.verifyToken, assignment.updateAssignment);
+
+app.route(prefix + '/assignmentslib/:id')
+  .get(verifyToken.verifyToken, assignmentlib.getAssignmentslib);
+
+app.route(prefix + '/assignmentslibs')
+  .get(verifyToken.verifyToken, assignmentlib.getAssignmentslibs);
+
+app.route(prefix + '/rendu')
+  .post(verifyToken.verifyToken, assignment.rendu);
 
 app.route(prefix + '/assignments/:id')
-  .get(assignment.getAssignment)
-  .delete(assignment.deleteAssignment);
+  .get(verifyToken.verifyToken, assignment.getAssignment)
+  .delete(verifyToken.verifyToken, assignment.deleteAssignment);
 
 app.route(prefix + '/matieres')
-  .get(matiere.getMatieres);
+  .get(verifyToken.verifyToken, matiere.getMatieres);
 
 app.route(prefix + '/matiere/:id')
-  .get(matiere.getMatiere)
-  .delete(matiere.deleteMatiere);
+  .get(verifyToken.verifyToken, matiere.getMatiere)
+  .delete(verifyToken.verifyToken, matiere.deleteMatiere);
 
 app.route(prefix + '/matiere')
-  .post(matiere.postMatiere)
-  .put(matiere.updateMatiere);
+  .post(verifyToken.verifyToken, matiere.postMatiere)
+  .put(verifyToken.verifyToken, matiere.updateMatiere);
 
 app.route(prefix + '/users')
-  .get(user.getUsers)
+  .get(verifyToken.verifyToken, user.getUsers)
   .post(user.postUser)
-  .put(user.updateUser);
+  .put(verifyToken.verifyToken, user.updateUser);
 
 app.route(prefix + '/user/login')
   .post(user.login);
@@ -80,11 +91,11 @@ app.route(prefix + '/user/register')
   .post(user.register);
 
 app.route(prefix + '/user/me')
-  .get(user.me);
+  .get(verifyToken.verifyToken, user.me);
 
 app.route(prefix + '/users/:id')
-  .get(user.getUser)
-  .delete(user.deleteUser);
+  .get(verifyToken.verifyToken, user.getUser)
+  .delete(verifyToken.verifyToken, user.deleteUser);
   
 
 // On démarre le serveur

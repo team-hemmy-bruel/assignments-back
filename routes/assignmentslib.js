@@ -13,7 +13,6 @@ function getAssignmentslibsSansPagination(req, res){
 
 function getAssignmentslibs(req, res) {
     var aggregateQuery = Assignmentslib.aggregate();
-    
     Assignmentslib.aggregatePaginate(aggregateQuery,
       {
         page: parseInt(req.query.page) || 1,
@@ -26,7 +25,25 @@ function getAssignmentslibs(req, res) {
         res.send(assignmentslibs);
       }
     );
-   }
+}
+
+/*
+function getAssignmentslibs(req, res) {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  Assignmentslib.find()
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .exec((err, assignmentslibs) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(assignmentslibs);
+      }
+    });
+}
+*/
    
 // Récupérer un assignmentslib par son id (GET)
 function getAssignmentslib(req, res){

@@ -1,3 +1,4 @@
+const { now } = require('mongoose');
 let Assignment = require('../models/assignment');
 
 // Récupérer tous les assignments (GET)
@@ -108,6 +109,31 @@ function updateAssignment(req, res) {
     );
 }
 
+// Mise à jour d'un assignment (PUT)
+function rendu(req, res) {
+  console.log("UPDATE reçu pour l'assignment : ");
+  console.log(req.body);
+
+  Assignment.findByIdAndUpdate(
+    req.body.id,
+    {
+      dateDeRendu: now(),
+      rendu: true,
+      note: req.body.note,
+      remarques: req.body.remarques,
+    },
+    { new: true },
+    (err, assignment) => {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.json({ message: `${assignment.nom}, la note à été mis à jour` });
+      }
+    }
+  );
+}
+
 // Suppression d'un assignment (DELETE)
 function deleteAssignment(req, res) {
     Assignment.findByIdAndRemove(req.params.id, (err, assignment) => {
@@ -120,4 +146,4 @@ function deleteAssignment(req, res) {
 
 
 
-module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment };
+module.exports = { getAssignments, postAssignment, getAssignment, updateAssignment, deleteAssignment, rendu };
