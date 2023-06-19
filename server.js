@@ -55,7 +55,7 @@ app.route(prefix + '/assignmentslibs')
   .get(verifyToken.verifyToken, assignmentlib.getAssignmentslibs);
 
 app.route(prefix + '/rendu')
-  .post(verifyToken.verifyToken, assignment.rendu);
+  .put(verifyToken.verifyToken, assignment.rendu);
 
 app.route(prefix + '/assignments/:id')
   .get(verifyToken.verifyToken, assignment.getAssignment)
