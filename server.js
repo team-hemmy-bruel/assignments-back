@@ -32,8 +32,9 @@ mongoose.connect(uri, options)
 
 // Pour accepter les connexions cross-domain (CORS)
 app.use(function (req, res, next) {
+  const allowedHeaders = ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-access-token', 'content-type', 'application/x-www-form-urlencoded'];
   res.header("Access-Control-Allow-Origin", "*");
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', allowedHeaders);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
 });
