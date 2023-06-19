@@ -50,37 +50,41 @@ db.createView(
 
 
 
-db.createView([
-  {
-    $lookup: {
-      from: "users",
-      localField: "auteur",
-      foreignField: "_id",
-      as: "auteur_info"
-    }
-  },
-  {
-    $lookup: {
-      from: "matieres",
-      localField: "matiere",
-      foreignField: "_id",
-      as: "matiere_info"
-    }
-  },
-  {
-    $project: {
-      _id: 1,
-      nom: 1,
-      dateDeRendu: 1,
-      rendu: 1,
-      note: 1,
-      remarques: 1,
-      "auteur_info.nomprenom": 1,
-      "auteur_info.email": 1,
-      "auteur_info.status": 1,
-      "auteur_info.image": 1,
-      "matiere_info.nom": 1,
-      "matiere_info.image": 1
-    }
-  }
-]);
+db.createView(
+    "assignmentslib", // Nom de la vue
+    "assignments", // Collection source
+    [
+        {
+            $lookup: {
+            from: "users",
+            localField: "auteur",
+            foreignField: "_id",
+            as: "auteur_info"
+            }
+        },
+        {
+            $lookup: {
+            from: "matieres",
+            localField: "matiere",
+            foreignField: "_id",
+            as: "matiere_info"
+            }
+        },
+        {
+            $project: {
+            _id: 1,
+            nom: 1,
+            dateDeRendu: 1,
+            rendu: 1,
+            note: 1,
+            remarques: 1,
+            "auteur_info.nomprenom": 1,
+            "auteur_info.email": 1,
+            "auteur_info.status": 1,
+            "auteur_info.image": 1,
+            "matiere_info.nom": 1,
+            "matiere_info.image": 1
+            }
+        }
+    ]
+);
