@@ -14,7 +14,10 @@ function getAssignmentsSansPagination(req, res){
 
 function getAssignments(req, res) {
     var aggregateQuery = Assignment.aggregate();
-    
+    // Ajoutez un étape de tri par ordre descendant sur la propriété _id
+    if(req.params.ordre){
+      aggregateQuery.sort({ _id: parseInt(req.params.ordre) });
+    }
     Assignment.aggregatePaginate(aggregateQuery,
       {
         page: parseInt(req.query.page) || 1,
@@ -43,12 +46,12 @@ function getAssignment(req, res){
 function postAssignment(req, res) {
     let assignment = new Assignment();
     assignment.nom = req.body.nom;
-    assignment.dateDeRendu = req.body.dateDeRendu;
-    assignment.rendu = req.body.rendu;
+    assignment.dateDeRendu = null;
+    assignment.rendu = false;
     assignment.auteur = req.body.auteur;
     assignment.matiere = req.body.matiere;
-    assignment.note = req.body.note;
-    assignment.remarques = req.body.remarques;
+    assignment.note = 0;
+    assignment.remarques = '';
   
     console.log("POST assignment reçu :");
     console.log(assignment);
@@ -108,6 +111,7 @@ function updateAssignment(req, res) {
       }
     );
 }
+//6491810dd897cf7dfcabde6e
 
 // Mise à jour d'un assignment (PUT)
 function rendu(req, res) {

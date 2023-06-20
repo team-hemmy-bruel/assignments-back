@@ -57,6 +57,11 @@ app.route(prefix + '/assignmentslib/:id')
 app.route(prefix + '/assignmentslibs')
   .get(verifyToken.verifyToken, assignmentlib.getAssignmentslibs);
 
+  app.route(prefix + '/assignmentslibs/:ordre')
+  .get(verifyToken.verifyToken, assignmentlib.getAssignmentslibs);
+  app.route(prefix + '/assignments/:ordre')
+  .get(verifyToken.verifyToken, assignment.getAssignments);
+
 app.route(prefix + '/rendu')
   .put(verifyToken.verifyToken, assignment.rendu);
 

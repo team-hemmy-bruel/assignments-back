@@ -13,6 +13,10 @@ function getAssignmentslibsSansPagination(req, res){
 
 function getAssignmentslibs(req, res) {
     var aggregateQuery = Assignmentslib.aggregate();
+    // Ajoutez un étape de tri par ordre descendant sur la propriété _id
+    if(req.params.ordre){
+      aggregateQuery.sort({ _id: parseInt(req.params.ordre) });
+    }
     Assignmentslib.aggregatePaginate(aggregateQuery,
       {
         page: parseInt(req.query.page) || 1,

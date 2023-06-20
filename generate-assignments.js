@@ -16,7 +16,7 @@ mongoose.connect(uri, {
   })
   .catch(err => console.log(err));
 
-// Générer 50 assignments aléatoires
+// Générer 1000 assignments aléatoires
 const generateAssignments = async () => {
   try {
     for (let i = 0; i < 1000; i++) {
