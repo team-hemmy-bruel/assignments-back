@@ -34,6 +34,9 @@ mongoose.connect(uri, options)
 // Pour accepter les connexions cross-domain (CORS)
 app.use(cors());
 
+// Serve static files from the "public" directory
+app.use(express.static('public'));
+
 // Pour les formulaires
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
